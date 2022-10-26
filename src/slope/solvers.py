@@ -52,4 +52,4 @@ def pgd_slope(
         if gap < gap_tol:
             break
 
-    return dict(beta=beta, intercept=intercept, primals=primals, gaps=gaps)
+    return dict(beta=beta, intercept=intercept, primals=primals, duals=duals, gaps=gaps)
