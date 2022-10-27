@@ -2,7 +2,7 @@ from timeit import default_timer as timer
 
 import numpy as np
 import scipy.sparse as sparse
-from numba import njit
+from numba import njit, float64
 from numpy.linalg import norm
 from scipy import stats
 from sklearn.feature_selection import VarianceThreshold
@@ -37,7 +37,7 @@ def primal(beta, X, y, lambdas):
     return (0.5 / len(y)) * norm(y - X @ beta) ** 2 + sl1_norm(beta, lambdas)
 
 
-@njit
+@njit(float64[:](float64[:], float64[:]))
 def prox_slope(beta, lambdas):
     """Compute the sorted L1 proximal operator.
 
@@ -77,7 +77,7 @@ def prox_slope(beta, lambdas):
             k = k - 1
             idx_j[k] = i
             s[k] += s[k + 1]
-            w[k] = s[k] / (i - idx_i[k] + 1)
+            w[k] = s[k] / (i - idx_i[k] + 1.0)
 
         k = k + 1
 
